@@ -1,7 +1,4 @@
-'use client'
-import { useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Users, TrendingUp, DollarSign, Target, Rocket, AlertCircle, Download } from 'lucide-react';
-import '../../app/globals.css';
+import { Users, TrendingUp, DollarSign, Target, Rocket, AlertCircle, Download } from 'lucide-react';
 
 export const slides = [
   {
@@ -20,7 +17,7 @@ export const slides = [
     )
   },
   {
-    title: "LA RÉALITÉ DU TERRAIN",
+    title: "LA RÉALITÉ DU TERRAIN I - Les Agents Immobiliers",
     icon: <AlertCircle className="w-12 h-12 text-red-600" />,
     content: (
       <div className="space-y-6">
@@ -45,7 +42,14 @@ export const slides = [
             </div>
           </div>
         </div>
-        
+      </div>
+    )
+  },
+  {
+    title: "LA RÉALITÉ DU TERRAIN II - Les Locataires",
+    icon: <AlertCircle className="w-12 h-12 text-red-600" />,
+    content: (
+      <div className="space-y-6">
         <div className="bg-linear-to-r from-orange-50 to-orange-100 p-6 rounded-lg border-l-4 border-orange-500">
           <h3 className="text-2xl font-bold mb-4 text-orange-900">😓 Les locataires aussi en paient le prix</h3>
           <div className="space-y-4 text-gray-800">
@@ -161,7 +165,14 @@ export const slides = [
             </div>
           </div>
         </div>
-        
+      </div>
+    )
+  },
+  {
+    title: "MODÈLE ÉCONOMIQUE",
+    icon: <DollarSign className="w-12 h-12" />,
+    content: (
+      <div className="space-y-6">
         <div className="bg-linear-to-r from-green-50 to-emerald-50 p-6 rounded-lg border-l-4 border-green-500">
           <h3 className="text-xl font-semibold mb-4 text-green-800">📊 Exemple Concret d'un Agent</h3>
           <div className="bg-white p-4 rounded-lg">
@@ -313,7 +324,7 @@ export const slides = [
     title: "ROADMAP & ÉQUIPE",
     icon: <Users className="w-12 h-12" />,
     content: (
-      <div className="space-y-6">
+      <div className="space-y-6 flex items-start gap-10">
         <div className="bg-blue-50 p-6 rounded-lg">
           <h3 className="text-xl font-semibold mb-4 text-blue-800">🗓️ Timeline de Lancement</h3>
           <div className="space-y-3">
@@ -514,115 +525,3 @@ export const slides = [
     )
   }
 ];
-
-const PitchDeck = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef<HTMLDivElement>(null)
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  return (
-    <div className="min-h-screen text-black bg-linear-to-br from-slate-50 to-slate-100 lg:p-4">
-      <div className="max-w-5xl mx-auto">
-        <div className="bg-white relative w-full rounded-2xl shadow-2xl overflow-hidden">
-          <div ref={slideRef} className="p-4 md:p-12 min-h-screen flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-              {slides[currentSlide].icon && (
-                <div className="text-blue-600">{slides[currentSlide].icon}</div>
-              )}
-              <h1 className="text-4xl font-bold text-gray-800 flex-1 text-center">
-                {slides[currentSlide].title}
-              </h1>
-              <div className="w-12"></div>
-            </div>
-            {slides[currentSlide].subtitle && (
-              <h2 className="text-2xl text-gray-600 text-center mb-8">
-                {slides[currentSlide].subtitle}
-              </h2>
-            )}
-            <div className="flex-1 overflow-y-auto">
-              {slides[currentSlide].content}
-            </div>
-          </div>
-
-          <div className='w-full h-30' />
-
-          {/* 📥 BOUTON PDF */}
-          <button
-            onClick={() => window.open("/api/pdf", "_blank")}
-            className="flex fixed bottom-100 items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition shadow-lg"
-          >
-            <Download className="w-5 h-5" />
-            Télécharger le Pitch Deck (PDF)
-          </button>
-
-          <div className="bg-gray-50 fixed w-full max-w-5xl bottom-0 px-8 py-6 border-t border-gray-200">
-            <div className="flex flex-col items-center justify-between">
-              <div className="w-full flex justify-center mb-4 md:hidden gap-2">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`w-3 h-3 rounded-full transition ${
-                      currentSlide === index
-                        ? 'bg-blue-600 w-8'
-                        : 'bg-gray-300 hover:bg-gray-400'
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className='flex w-full items-center justify-between'>
-                <button
-                  onClick={prevSlide}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={currentSlide === 0}
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                  <span>Précédent</span>
-                </button>
-
-                <div className="space-x-2 hidden md:flex">
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      className={`w-3 h-3 rounded-full transition ${
-                        currentSlide === index
-                          ? 'bg-blue-600 w-8'
-                          : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  onClick={nextSlide}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={currentSlide === slides.length - 1}
-                >
-                  <span>Suivant</span>
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-            <div className="text-center mt-4 text-sm text-gray-500">
-              Slide {currentSlide + 1} sur {slides.length}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default PitchDeck;
